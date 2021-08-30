@@ -6,11 +6,14 @@ import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 // 引入axios
-import axios from 'axios'
+import axios from './axios'
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 //加载elmentUi
 Vue.use(ElementUI);
+
+require("./mock.js")
+
 new Vue({
   router,
   store,

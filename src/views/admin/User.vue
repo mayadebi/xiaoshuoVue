@@ -1,10 +1,10 @@
 <template>
-<h1>主页</h1>
+<div>用户管理</div>
 </template>
 
 <script>
 export default {
-  name: "Home"
+  name: "User"
 }
 </script>
 
