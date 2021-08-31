@@ -8,7 +8,7 @@
         <Header></Header>
       </el-header>
       <el-main>
-<!--        这里就是index页面,用路由跳转-->
+        <!--        这里就是index页面,用路由跳转-->
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -18,9 +18,10 @@
 <script>
 import MenuLeft from '@/components/admin/MenuLeft'
 import Header from '@/components/admin/Header'
+
 export default {
   name: "Home",
-  components:{
+  components: {
     MenuLeft,
     Header
   }
@@ -33,7 +34,6 @@ export default {
   margin: 0;
   height: 100%;
 }
-
 
 
 .el-dropdown-link {
@@ -56,6 +56,9 @@ export default {
 .el-main {
   color: #333;
   text-align: center;
-  line-height: 160px;
+  /*line-height: 160px;*/
+}
+a {
+  text-decoration: none;
 }
 </style>

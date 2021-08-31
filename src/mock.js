@@ -25,3 +25,48 @@ Mock.mock('/login', 'post', () => {
         return Result
     }
 )
+Mock.mock('/logout', 'post', () => {
+        return Result
+    }
+)
+Mock.mock('/sys/menu/all', 'get', () => {
+        let menu = [
+            {
+                name: 'SysManga',
+                title: '系统管理',
+                icon: 'el-icon-s-operation',
+                path: '',
+                component: '',
+                children: [{
+                    name: 'SysUser',
+                    title: '用户管理',
+                    icon: 'el-icon-s-custom',
+                    path: '/sys/user',
+                    component: 'admin/User',
+                    children: []
+                }]
+            }, {
+                name: 'SysTools',
+                title: '系统工具',
+                icon: 'el-icon-s-tools',
+                path: '',
+                children: [{name: 'SysDict', title: '数字字典', icon: 'el-icon-s-order', path: '/sys/dicts', children: []},]
+            }
+        ]
+        let authoritys = []
+        Result.data = {
+            menu: menu,
+            authoritys: authoritys
+        }
+        return Result
+    }
+)
+Mock.mock('/sys/userInfo', 'get', () => {
+        Result.data = {
+            id: '1',
+            username: 'test',
+            touxiang: 'https://dgss0.bdstatic.com/5bVSsj_p_tVS5dKfpU_Y_D3/data/f29112307b6e45286ff3a4aa54320472'
+        }
+        return Result
+    }
+)

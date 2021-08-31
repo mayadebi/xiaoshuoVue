@@ -2,14 +2,16 @@
   <div>
     <strong>看小说系统</strong>
     <div class="header-avatar">
-      <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+      <el-avatar :src="userInfo.touxiang"></el-avatar>
       <el-dropdown>
               <span class="el-dropdown-link">
-                Admin<i class="el-icon-arrow-down el-icon--right"></i>
+                {{userInfo.username}}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>个人中心</el-dropdown-item>
-          <el-dropdown-item>退出</el-dropdown-item>
+          <el-dropdown-item>
+            <router-link to="/sys/userCenter">个人中心</router-link>
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="logout()">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-link type="primary" :underline="false" target="_blank"
@@ -21,7 +23,34 @@
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  data() {
+    return {
+      userInfo: {
+        id: '',
+        username: '',
+        touxiang: ''
+      }
+    }
+  },
+  created() {
+    this.getUserInfo()
+  },
+  methods:{
+    getUserInfo(){
+      this.$axios.get("/sys/userInfo").then(res =>{
+        this.userInfo = res.data.data
+      })
+    },
+    logout(){
+      this.$axios.post("/logout").then(res =>{
+        localStorage.clear()
+        sessionStorage.clear()
+        this.$store.commit("DEL_TOKEN");
+        this.$router.push("/login")
+      })
+    }
+  }
 }
 </script>
 
@@ -32,5 +61,8 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+a {
+  text-decoration: none;
 }
 </style>
