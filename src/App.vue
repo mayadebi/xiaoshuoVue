@@ -4,6 +4,24 @@
   </div>
 </template>
 
+<script>
+ export default {
+   name:'App',
+   watch:{
+     // 修复进入页面不在首页标签不存在的bug
+     $route(to,form){
+       if(to.path != '/login'){
+         let obj = {
+           name: to.name,
+           title: to.meta.title
+         }
+         this.$store.commit("ADD_TAB",obj)
+       }
+     }
+   }
+ }
+</script>
+
 <style lang="scss">
 
 

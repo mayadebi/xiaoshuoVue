@@ -8,6 +8,7 @@
         <Header></Header>
       </el-header>
       <el-main>
+        <Tabs></Tabs>
         <!--        这里就是index页面,用路由跳转-->
         <router-view></router-view>
       </el-main>
@@ -18,12 +19,13 @@
 <script>
 import MenuLeft from '@/components/admin/MenuLeft'
 import Header from '@/components/admin/Header'
-
+import Tabs from '@/components/admin/Tabs'
 export default {
   name: "Home",
   components: {
     MenuLeft,
-    Header
+    Header,
+    Tabs
   }
 }
 </script>
@@ -56,6 +58,7 @@ export default {
 .el-main {
   color: #333;
   text-align: center;
+  padding: 0;
   /*line-height: 160px;*/
 }
 a {

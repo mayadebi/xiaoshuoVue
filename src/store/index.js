@@ -11,9 +11,6 @@ export default new Vuex.Store({
     SET_TOKEN:(state,token) =>{
       state.token = token
       localStorage.setItem("token",token)
-    },
-    DEL_TOKEN:(state) =>{
-      state.token = ''
     }
   },
   actions: {
