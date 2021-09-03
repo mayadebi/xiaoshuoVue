@@ -55,12 +55,12 @@
           prop="icon"
           label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="editHandle(scope.row)">分配权限</el-button>
+          <el-button type="text" @click="permHandel(scope.row.id)">分配权限</el-button>
           <el-button type="text" @click="editHandle(scope.row)">编辑</el-button>
           <el-divider direction="vertical"></el-divider>
           <template>
             <el-popconfirm title="确定要删除这条记录吗？" @confirm="delHandel(scope.row.id)">
-              <el-button type="text" slot="reference" >删除</el-button>
+              <el-button type="text" slot="reference">删除</el-button>
             </el-popconfirm>
           </template>
         </template>
@@ -103,6 +103,27 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <el-dialog
+        title="分配权限"
+        :visible.sync="permdialogVisible"
+        width="600px"
+    >
+      <el-form :model="permForm" ref="permForm" label-width="100px" class="demo-editFrom">
+        <el-tree
+            :data="permData"
+            show-checkbox
+            node-key="id"
+            ref="permTree"
+            :props="defaultProps"
+            :default-expand-all="true"
+        >
+        </el-tree>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="permdialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitPermForm('permForm')">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -111,24 +132,31 @@ export default {
   name: "Role",
   data() {
     return {
+      permData: [],
+      defaultProps: {
+        children: 'children',
+        label: 'title'
+      },
+      permForm: {},
+      permdialogVisible: false,
       editFormRules: {
         name: [{required: true, message: '请输入角色名称', trigger: 'blur'}],
         code: [{required: true, message: '请输入唯一编码', trigger: 'blur'}],
         statu: [{required: true, message: '请选择状态', trigger: 'blur'}]
       },
-      editForm:{},
-      dialogVisible:false,
-      size:10,
-      total:100,
-      current:1,
+      editForm: {},
+      dialogVisible: false,
+      size: 10,
+      total: 100,
+      current: 1,
       searchFrom: {},
       delStatu: true,
       tableData: [{
         remark: '2016-05-03',
         name: '王小虎',
         code: '上海市普陀区金沙江路 1518 弄',
-        statu:0,
-        id:1
+        statu: 0,
+        id: 1
       }],
       multipleSelection: []
 
@@ -137,53 +165,76 @@ export default {
   ,
   created() {
     this.getRoleList()
+    this.$axios.get("/sys/menu/all").then(res => {
+      this.permData = res.data.data.menu
+    })
   },
   methods: {
-    getRoleList(){
-      this.$axios.get("/sys/role/all",{
-        params:{
-          name:this.searchFrom.name,
-          current:this.current,
-          size:this.size
+    submitPermForm(formName) {
+      let menuIds = this.$refs.permTree.getCheckedKeys()
+      this.$axios.post("/sys/role/perm/"+this.permForm.id,menuIds).then(res =>{
+        this.$message({
+          message: '恭喜你，操作成功',
+          type: 'success',
+          onClose: () => {
+            this.getRoleList()
+          }
+        })
+        this.permdialogVisible = false
+      })
+    },
+    permHandel(id) {
+      this.permdialogVisible = true
+      this.$axios.get("/sys/role/info/" + id).then(res => {
+        this.$refs.permTree.setCheckedKeys(res.data.data.menuIds)
+        this.permForm = res.data.data
+      })
+    },
+    getRoleList() {
+      this.$axios.get("/sys/role/all", {
+        params: {
+          name: this.searchFrom.name,
+          current: this.current,
+          size: this.size
         }
-      }).then(res =>{
+      }).then(res => {
         this.tableData = res.data.data.records
         this.size = res.data.data.size
         this.current = res.data.data.current
         this.total = res.data.data.total
       })
     },
-    delHandel(id){
+    delHandel(id) {
       let ids = []
-      if(id){
+      if (id) {
         ids.push(id)
       } else {
-        this.multipleSelection.forEach(item =>{
+        this.multipleSelection.forEach(item => {
           ids.push(item.id)
         })
       }
-      this.$axios.post('/sys/role/delete/',ids).then(res =>{
+      this.$axios.post('/sys/role/delete/', ids).then(res => {
         this.$message({
           message: '恭喜你，操作成功',
           type: 'success',
-          onClose:() =>{
+          onClose: () => {
             this.getRoleList()
           }
         })
       })
     },
-    editHandle(row){
+    editHandle(row) {
       this.editForm = row
       this.dialogVisible = true
     },
-    submitForm(formName){
+    submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/sys/role/'+(this.editForm.id?'update' : 'save'),this.editForm).then(res =>{
+          this.$axios.post('/sys/role/' + (this.editForm.id ? 'update' : 'save'), this.editForm).then(res => {
             this.$message({
               message: '恭喜你，操作成功',
               type: 'success',
-              onClose:() =>{
+              onClose: () => {
                 this.getRoleList()
               }
             })
@@ -195,7 +246,7 @@ export default {
         }
       });
     },
-    handleClose(){
+    handleClose() {
       this.resetForm('editForm')
     },
     resetForm(formName) {
@@ -224,7 +275,7 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      this.delStatu = val.length ===0
+      this.delStatu = val.length === 0
     },
     addRole() {
       this.dialogVisible = true
@@ -234,7 +285,7 @@ export default {
 </script>
 
 <style scoped>
-.el-pagination{
+.el-pagination {
   float: right;
   margin-top: 22px;
 }
