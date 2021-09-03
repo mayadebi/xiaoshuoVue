@@ -10,7 +10,9 @@
       <el-main>
         <Tabs></Tabs>
         <!--        这里就是index页面,用路由跳转-->
-        <router-view></router-view>
+        <div style="margin: 0 15px;">
+          <router-view></router-view>
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -57,9 +59,7 @@ export default {
 
 .el-main {
   color: #333;
-  text-align: center;
   padding: 0;
-  /*line-height: 160px;*/
 }
 a {
   text-decoration: none;

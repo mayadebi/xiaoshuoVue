@@ -32,12 +32,14 @@ Mock.mock('/logout', 'post', () => {
 Mock.mock('/sys/menu/all', 'get', () => {
         let menu = [
             {
+                id:1,
                 name: 'SysManga',
                 title: '系统管理',
                 icon: 'el-icon-s-operation',
                 path: '',
                 component: '',
                 children: [{
+                    id:2,
                     name: 'SysUser',
                     title: '用户管理',
                     icon: 'el-icon-s-custom',
@@ -45,6 +47,7 @@ Mock.mock('/sys/menu/all', 'get', () => {
                     component: 'admin/User',
                     children: []
                 }, {
+                    id:3,
                     name: 'SysRole',
                     title: '权限管理',
                     icon: 'el-icon-s-custom',
@@ -52,6 +55,7 @@ Mock.mock('/sys/menu/all', 'get', () => {
                     component: 'admin/Role',
                     children: []
                 }, {
+                    id:4,
                     name: 'SysMenu',
                     title: '菜单管理',
                     icon: 'el-icon-s-custom',
@@ -60,6 +64,7 @@ Mock.mock('/sys/menu/all', 'get', () => {
                     children: []
                 }]
             }, {
+                id:5,
                 name: 'SysTools',
                 title: '系统工具',
                 icon: 'el-icon-s-tools',
@@ -79,7 +84,7 @@ Mock.mock('/sys/userInfo', 'get', () => {
         Result.data = {
             id: '1',
             username: 'test',
-            touxiang: 'https://dgss0.bdstatic.com/5bVSsj_p_tVS5dKfpU_Y_D3/data/f29112307b6e45286ff3a4aa54320472'
+            touxiang: 'https://dgss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2027550741,151845628&fm=30&app=106&f=JPEG?w=312&h=208&s=8BB3538514132FD0CE2D1D0E0300B0D0'
         }
         return Result
     }

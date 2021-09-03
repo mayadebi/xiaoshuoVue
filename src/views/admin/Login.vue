@@ -80,7 +80,6 @@ export default {
     },
     getCaptcha(){
       this.$axios.get('/captcha').then(res =>{
-        console.log(res)
         this.loginForm.token = res.data.data.token
         this.captchaImg = res.data.data.captchaImg
       })

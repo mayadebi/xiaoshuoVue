@@ -21,6 +21,7 @@ request.interceptors.response.use(response => {
         if (res.code === 200) {
             return response
         } else {
+
             // Promise.reject()方法返回一个带有拒绝原因的Promise对象。
             Element.Message.error(res.msg ? res.msg : "系统异常")
             return Promise.reject(response.data.msg)
@@ -33,8 +34,7 @@ request.interceptors.response.use(response => {
         if(error.response.status === 401){
             router.push("/login")
         }
-
-        Element.Message.error(error.massage,{duration:3000})
+        Element.Message.error(error.massage ? error.massage : "系统异常",{duration:3000})
 
         return Promise.reject(error)
     }

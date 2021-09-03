@@ -1,6 +1,6 @@
 <template>
   <div>
-    <strong>看小说系统</strong>
+    <strong>抖M系统</strong>
     <div class="header-avatar">
       <el-avatar :src="userInfo.touxiang"></el-avatar>
       <el-dropdown>
